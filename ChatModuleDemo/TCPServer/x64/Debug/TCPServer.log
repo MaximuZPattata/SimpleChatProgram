@@ -1,0 +1,15 @@
+﻿  pch.cpp
+  cBuffer.cpp
+C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\TCPServer\cBuffer.cpp(40,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\TCPServer\cBuffer.cpp(51,31): warning C4244: '=': conversion from 'uint16_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=uint8_t
+          ]
+C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\TCPServer\cBuffer.cpp(64,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  cNetworkManager.cpp
+C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\TCPServer\cNetworkManager.cpp(7,48): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\TCPServer\cNetworkManager.cpp(13,3): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+  serverMain.cpp
+  Generating Code...
+  TCPServer.vcxproj -> C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\x64\Debug\TCPServer.exe
