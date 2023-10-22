@@ -191,10 +191,10 @@ int cNetworkManager::CheckForResponseFromServer(SOCKET& serverSocket, cBuffer& b
 	}
 	if (count > 0)
 	{
-		if (!fd_cleared)
+		if (!mFDCleared)
 		{
 			FD_CLR(serverSocket, &socketsReadyForReading);
-			fd_cleared = true;
+			mFDCleared = true;
 		}
 		else
 		{

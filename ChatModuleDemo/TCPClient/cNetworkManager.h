@@ -22,7 +22,7 @@ class cNetworkManager
 {
 private:
 
-	bool fd_cleared = false;
+	bool mFDCleared = false;
 
 public:
 
