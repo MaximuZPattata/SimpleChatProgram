@@ -3,16 +3,16 @@
 #include "cNetworkManager.h"
 #include "cBuffer.h"
 
+//This class is created to implement the user interface
 class cUserInterface
 {
 private:
 
-	bool user_writing = false;
-	bool fd_cleared = false;
-	bool escape_sequence_pressed = false;
-	bool joined_room = false;
-	bool chat_ready = false;
-	bool type_ready = false;
+	bool mUserWriting = false; // To check if the user is typing on the console
+	bool mEscapeSequencePressed = false; // To check if the user has pressed the 'ESC' button
+	bool mJoinedRoom = false; // To check if the user has joined a room
+	bool mChatReady = false; // To check if the user is allowed to chat
+	bool mTypeReady = false; // To check if the user has entered the typing zone
 
 public:
 
@@ -27,6 +27,5 @@ public:
 	bool isUserWriting();
 
 	void ErasePreviousLines(int lineEraseCount);
-	//void setUserWriting(bool value);
 };
 

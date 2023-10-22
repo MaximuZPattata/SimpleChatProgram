@@ -1,15 +1,24 @@
 #include "pch.h"
 #include "cUserInterface.h"
 
+//Constructor
 cUserInterface::cUserInterface()
 {
 
 }
+
+//Destructor
 cUserInterface::~cUserInterface()
 {
 
 }
 
+// Function to prompt the user for their name and send it to the server.
+// [param_1]: Reference to the cNetworkManager instance.
+// [param_2]: Reference to the server socket instance.
+// [param_3]: Reference to the cBuffer instance for handling messages.
+// [param_4]: Reference to the sChatMessage instance.
+// [return_value]: The error indication is passed as an integer value (1 - error, 0 - success).
 int cUserInterface::GetClientName(cNetworkManager& networkManager, SOCKET& serverSocket, cBuffer& buffer, sChatMessage& message)
 {
 	std::string userInput;
@@ -18,11 +27,11 @@ int cUserInterface::GetClientName(cNetworkManager& networkManager, SOCKET& serve
 	//Asking for client name
 	printf("\nENTER YOUR NAME : ");
 
-	user_writing = true;
+	mUserWriting = true;
 
 	std::getline(std::cin, userInput);
 
-	user_writing = false;
+	mUserWriting = false;
 
 	tempString = "$NAME$" + userInput;
 
@@ -42,6 +51,8 @@ int cUserInterface::GetClientName(cNetworkManager& networkManager, SOCKET& serve
 	}
 }
 
+// Function to erase the previous lines in the console.
+// [param_1]: Number of lines to erase.
 void cUserInterface::ErasePreviousLines(int lineEraseCount)
 {
 	for (int i = 0; i < lineEraseCount; i++)
@@ -51,19 +62,27 @@ void cUserInterface::ErasePreviousLines(int lineEraseCount)
 
 }
 
+
+// Function to check and handle user input.
+// [param_1]: Reference to the cNetworkManager instance.
+// [param_2]: The key code(integer value) corresponding to the user's input.
+// [param_3]: Reference to the server socket instance.
+// [param_4]: Reference to the cBuffer instance for handling messages.
+// [param_5]: Reference to the sChatMessage instance.
+// [return_value]: The error indication is passed as an integer value (1 - error, 0 - success).
 int cUserInterface::CheckUserInput(cNetworkManager& networkManager, int key, SOCKET& serverSocket, cBuffer& buffer, sChatMessage& message)
 {
 	std::string userInput;
 	std::string tempString;
 	int result = 0;
 
-	if (!type_ready && key == 27 /*'ESC'*/)
+	if (!mTypeReady && key == 27 /*'ESC'*/)
 	{
-		if (!escape_sequence_pressed)
+		if (!mEscapeSequencePressed)
 		{
-			escape_sequence_pressed = true;
+			mEscapeSequencePressed = true;
 
-			if (!chat_ready)
+			if (!mChatReady)
 				printf("\n**PRESS 'J' TO JOIN A ROOM**\n");
 
 			else
@@ -72,22 +91,22 @@ int cUserInterface::CheckUserInput(cNetworkManager& networkManager, int key, SOC
 		else
 		{
 			ErasePreviousLines(2);
-			escape_sequence_pressed = false;
+			mEscapeSequencePressed = false;
 		}
 	}
 
-	else if (joined_room == false && escape_sequence_pressed == true && (key == 74 /*'J'*/ || key == 106 /*'j'*/))
+	else if (mJoinedRoom == false && mEscapeSequencePressed == true && (key == 74 /*'J'*/ || key == 106 /*'j'*/))
 	{
-		escape_sequence_pressed = false;
+		mEscapeSequencePressed = false;
 
 		ErasePreviousLines(2);
 		printf("\nENTER ROOM NAME : ");
 
-		user_writing = true;
+		mUserWriting = true;
 
 		std::getline(std::cin, userInput);
 
-		user_writing = false;
+		mUserWriting = false;
 
 		tempString = "$JOIN$" + userInput;
 
@@ -96,24 +115,24 @@ int cUserInterface::CheckUserInput(cNetworkManager& networkManager, int key, SOC
 		if (result != 0)
 			return 1;
 		else
-			joined_room = true;
+			mJoinedRoom = true;
 
 		printf("\n");
 	}
 
-	else if (chat_ready == true && key == 9 /*'TAB'*/)
+	else if (mChatReady == true && key == 9 /*'TAB'*/)
 	{
-		if (!type_ready)
+		if (!mTypeReady)
 		{
-			type_ready = true;
+			mTypeReady = true;
 
 			printf("\nTYPE HERE : ");
 
-			user_writing = true;
+			mUserWriting = true;
 
 			std::getline(std::cin, userInput);
 
-			user_writing = false;
+			mUserWriting = false;
 
 			tempString = "$CHAT$" + userInput;
 
@@ -124,19 +143,19 @@ int cUserInterface::CheckUserInput(cNetworkManager& networkManager, int key, SOC
 
 			else
 			{
-				type_ready = false;
+				mTypeReady = false;
 				printf("\033[1A\r\033[K");
 			}
 		}
 		else
 		{
-			type_ready = false;
+			mTypeReady = false;
 			printf("\r\033[K");
 		}
 	}
-	else if (joined_room == true && escape_sequence_pressed == true && (key == 69 /*'E'*/ || key == 101 /*'e'*/))
+	else if (mJoinedRoom == true && mEscapeSequencePressed == true && (key == 69 /*'E'*/ || key == 101 /*'e'*/))
 	{
-		escape_sequence_pressed = false;
+		mEscapeSequencePressed = false;
 
 		ErasePreviousLines(2);
 
@@ -151,12 +170,15 @@ int cUserInterface::CheckUserInput(cNetworkManager& networkManager, int key, SOC
 	return 0;
 }
 
-
+// Function to check if the user is currently entering text.
+// [return_value]: Returns true if the user is writing; otherwise, returns false.
 bool cUserInterface::isUserWriting()
 {
-	return user_writing;
+	return mUserWriting;
 }
 
+// Function to print received messages in the console.
+// [param_1]: Reference to the cBuffer instance containing the received message.
 void cUserInterface::PrintReceivedMessage(cBuffer& buffer)
 {
 	uint32_t messageLength = buffer.ReadUInt32BE();
@@ -166,15 +188,15 @@ void cUserInterface::PrintReceivedMessage(cBuffer& buffer)
 
 	if (tempString == "$READY$")
 	{
-		chat_ready = true;
+		mChatReady = true;
 		printf("%s\n", msg.substr(7).c_str());
 		printf("\n[PRESS 'TAB' TO TYPE MESSAGE | PRESS 'ESCAPE' FOR OPTIONS]\n");
 		printf("\n-----------------------------<<YOUR CHAT BEGINS HERE>>-----------------------------------\n");
 	}
 	else if (msg == "$LEFT$")
 	{
-		joined_room = false;
-		chat_ready = false;
+		mJoinedRoom = false;
+		mChatReady = false;
 		printf("\n-----------------------------<<YOUR CHAT ENDS HERE>>-----------------------------------\n");
 		printf("\n**YOU HAVE LEFT THE ROOM**\n");
 		printf("\n[PRESS 'ESCAPE' FOR OPTIONS]\n");

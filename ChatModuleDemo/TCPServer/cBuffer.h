@@ -2,16 +2,17 @@
 
 #include "pch.h"
 
+// This class is created to manage the buffer for reading and writing data(serializing and deserializing)
 class cBuffer
 {
 private:
 
-	int mWriteIndex;
-	int mReadIndex;
+	int mWriteIndex; // Index for writing data to the buffer
+	int mReadIndex;	 // Index for reading data from the buffer
 
 public:
 
-	std::vector<uint8_t> mBufferData;
+	std::vector<uint8_t> mBufferData;  // Container to store binary data
 
 	cBuffer(int size);
 	~cBuffer();

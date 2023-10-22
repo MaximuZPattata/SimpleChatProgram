@@ -2,12 +2,14 @@
 #include "pch.h"
 #include "cBuffer.h"
 
+// Structure to represent the packet header
 struct sPacketHeader
 {
 	uint32_t packetSize;
 	uint32_t messageType;
 };
 
+// Structure to represent message details
 struct sChatMessage
 {
 	sPacketHeader header;
@@ -15,6 +17,7 @@ struct sChatMessage
 	std::string message;
 };
 
+// This class is created to manage the network related functionalities
 class cNetworkManager
 {
 private:
@@ -23,6 +26,7 @@ private:
 
 public:
 
+	// Pointers and structures for managing network connections
 	struct addrinfo* info = nullptr;
 	struct addrinfo hints;
 

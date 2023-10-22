@@ -2,21 +2,24 @@
 #include "cNetworkManager.h"
 #include "cBuffer.h"
 
+//Constructor
 cNetworkManager::cNetworkManager()
-{
+{ }
 
-}
-
+//Destructor
 cNetworkManager::~cNetworkManager()
-{
+{ }
 
-}
 
+// Function to structure the message and send it to the buffer.
+// [param_1]: Reference to the sChatMessage for message details.
+// [param_2]: Reference to the cBuffer instance for message storage.
+// [param_3]: The input message to send.
 void cNetworkManager::SendMessageToBuffer(sChatMessage& message, cBuffer& buffer, std::string input)
 {
 	message.message = input;
 	message.messageLength = message.message.length();
-	message.header.messageType = 1;// Can use an enum to determine this
+	message.header.messageType = 1;
 	message.header.packetSize =
 		message.message.length()
 		+ sizeof(message.messageLength)
@@ -30,6 +33,12 @@ void cNetworkManager::SendMessageToBuffer(sChatMessage& message, cBuffer& buffer
 	buffer.WriteString(message.message);
 }
 
+// Function to send a response message to the server.
+// [param_1]: Reference to the sChatMessage for message details.
+// [param_2]: Reference to the cBuffer instance for message storage.
+// [param_3]: Message to send.
+// [param_4]: Reference to the Server socket instance
+// [return_value]: The error indication is passed as an integer value (1 - error, 0 - success).
 int cNetworkManager::WriteResponse(sChatMessage& message, cBuffer& buffer, std::string response, SOCKET& serverSocket)
 {
 	SendMessageToBuffer(message, buffer, response);
@@ -46,6 +55,9 @@ int cNetworkManager::WriteResponse(sChatMessage& message, cBuffer& buffer, std::
 	return 0;
 }
 
+// Function to close and clean up the socket and Windows Sockets API.
+// [param_1]: Reference to the Server socket instance.
+// [param_2]: Address information.
 void cNetworkManager::CleanSocket(SOCKET& serverSocket, PADDRINFOA info)
 {
 	closesocket(serverSocket);
@@ -53,6 +65,8 @@ void cNetworkManager::CleanSocket(SOCKET& serverSocket, PADDRINFOA info)
 	WSACleanup();
 }
 
+// Function to initialize the Windows Sockets API (WSA).
+// [return_value]: The error indication is passed as an integer value (1 - error, 0 - success).
 int cNetworkManager::InitializeWSA()
 {
 	WSADATA wsaData;
@@ -70,6 +84,10 @@ int cNetworkManager::InitializeWSA()
 	return 0;
 }
 
+// Function to initialize address information.
+// [param_1]: IP address as a string 
+// [param_2]: Port number as a string
+// [return_value]: The error indication is passed as an integer value (1 - error, 0 - success).
 int cNetworkManager::InitializeAddrInfo(const char* ipaddress, const char* port)
 {
 	ZeroMemory(&hints, sizeof(hints));
@@ -92,6 +110,9 @@ int cNetworkManager::InitializeAddrInfo(const char* ipaddress, const char* port)
 	return 0;
 }
 
+// Function to create a socket for the server connection.
+// [param_1]: Reference to server socket instance.
+// [return_value]: The error indication is passed as an integer value (1 - error, 0 - success).
 int cNetworkManager::CreateSocket(SOCKET& serverSocket)
 {
 	serverSocket = socket(info->ai_family, info->ai_socktype, info->ai_protocol);
@@ -110,6 +131,9 @@ int cNetworkManager::CreateSocket(SOCKET& serverSocket)
 	result = ioctlsocket(serverSocket, FIONBIO, &NonBlock);*/
 }
 
+// Function to connect the socket to the server.
+// [param_1]: Reference to server socket instance.
+// [return_value]: The error indication is passed as an integer value (1 - error, 0 - success).
 int cNetworkManager::ConnectSocket(SOCKET& serverSocket)
 {
 	connect(serverSocket, info->ai_addr, (int)info->ai_addrlen);
@@ -125,6 +149,11 @@ int cNetworkManager::ConnectSocket(SOCKET& serverSocket)
 	return 0;
 }
 
+// Function to receive a message from the server.
+// [param_1]: Reference to server socket instance.
+// [param_2]: Reference to the cBuffer instance for message storage.
+// [param_3]: Size of the buffer in integer.
+// [return_value]: The error indication is passed as an integer value (1 - error, 0 - success).
 int cNetworkManager::ReceiveMessageFromServer(SOCKET& serverSocket, cBuffer& buffer, int bufSize)
 {
 	int result = recv(serverSocket, (char*)(&buffer.mBufferData[0]), bufSize, 0);
@@ -139,6 +168,13 @@ int cNetworkManager::ReceiveMessageFromServer(SOCKET& serverSocket, cBuffer& buf
 	return 0;
 }
 
+// Function to check for a response from the server using select.
+// [param_1]: Reference to server socket instance.
+// [param_2]: Reference to the cBuffer instance for message storage.
+// [param_3]: Size of the buffer in integer.
+// [param_4]: Set of sockets to check.
+// [param_5]: Timeval for timeout.
+// [return_value]: The error indication is passed as an integer value (2 - continue loop, 1 - error, 0 - success).
 int cNetworkManager::CheckForResponseFromServer(SOCKET& serverSocket, cBuffer& buffer, int bufSize, FD_SET& socketsReadyForReading, timeval& tv)
 {
 	int count = select(0, &socketsReadyForReading, NULL, NULL, &tv);

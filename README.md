@@ -3,7 +3,8 @@
 ---------------------------------------------------------------------------------<<Chat Module Demo>>----------------------------------------------------------------------------------------------------------
 
 - The project involves a simple chat program using multiple socket connections from the server to the various clients connected to the server. The clients can allocate, join and leave a room. Other clients can join the same room and chat with others in the room. 
-- The messages sent from server to client or vice versa implement Big Endianness in their protocol when implementing serializing and deserializing in Buffer. 
+- The messages sent from server to client or vice versa implement Big Endianness in their protocol when implementing serializing and deserializing in Buffer.
+- Also the length of the message is added to the start of the message to implement "Length prefix message framing".
 - The buffer is initialized to an N value(512 at start) and grows when packet size exceeds. 
 - The server is made to act concurrently. Uses select() to handle multiple connections.
 - The server broadcasts to all clients in the room when a new client joins or when a previously existing client exits the room.
