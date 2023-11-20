@@ -1,16 +1,7 @@
-﻿  pch.cpp
-  cBuffer.cpp
-C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\TCPClient\cBuffer.cpp(50,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\TCPClient\cBuffer.cpp(63,31): warning C4244: '=': conversion from 'uint16_t' to '_Ty', possible loss of data
-          with
-          [
-              _Ty=uint8_t
-          ]
-C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\TCPClient\cBuffer.cpp(81,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  cNetworkManager.cpp
-C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\TCPClient\cNetworkManager.cpp(21,48): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
-C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\TCPClient\cNetworkManager.cpp(27,3): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+﻿  cNetworkManager.cpp
+C:\Users\maxim\Git_Files\Projects\Network_Programming\Project_01_Network_Programming\ChatModuleDemo\TCPClient\cNetworkManager.cpp(21,48): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+C:\Users\maxim\Git_Files\Projects\Network_Programming\Project_01_Network_Programming\ChatModuleDemo\TCPClient\cNetworkManager.cpp(27,3): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
   cUserInterface.cpp
   clientMain.cpp
   Generating Code...
-  TCPClient.vcxproj -> C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\x64\Debug\TCPClient.exe
+  TCPClient.vcxproj -> C:\Users\maxim\Git_Files\Projects\Network_Programming\Project_01_Network_Programming\ChatModuleDemo\x64\Debug\TCPClient.exe

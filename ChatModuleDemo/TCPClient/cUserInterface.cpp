@@ -181,7 +181,7 @@ bool cUserInterface::isUserWriting()
 // [param_1]: Reference to the cBuffer instance containing the received message.
 void cUserInterface::PrintReceivedMessage(cBuffer& buffer)
 {
-	uint32_t messageLength = buffer.ReadUInt32BE();
+	uint32_t messageLength = buffer.ReadUInt16BE();
 	std::string msg = buffer.ReadString(messageLength);
 
 	std::string tempString = msg.substr(0, 7);

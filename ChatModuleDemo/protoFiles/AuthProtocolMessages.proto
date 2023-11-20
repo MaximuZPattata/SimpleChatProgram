@@ -1,0 +1,57 @@
+syntax = "proto2";
+
+package accountAuthProtocol;
+
+message AccountCreation 
+{
+required int64 requestId = 1;
+required string email = 2;
+required string plaintextPassword = 3;
+}
+
+message AccountCreationSuccess 
+{
+required int64 requestId = 1;
+optional int64 userId = 2;
+}
+
+message AccountCreationFailure 
+{
+required int64 requestId = 1;
+
+enum FailReason 
+{
+ACCOUNT_ALREADY_EXISTS = 0;
+INVALID_PASSWORD = 1;
+INTERNAL_SERVER_ERROR = 2;
+}
+
+optional FailReason reason = 2 [default = INVALID_PASSWORD];
+}
+
+message AuthenticateAccount 
+{
+required int64 requestId = 1;
+required string email = 2;
+required string plaintextPassword = 3;
+}
+
+message AuthenticationSuccess 
+{
+required int64 requestId = 1;
+optional int64 userId = 2;
+optional string creationDate = 3;
+}
+
+message AuthenticationFailure 
+{
+required int64 requestId = 1;
+
+enum FailReason 
+{
+INVALID_CREDENTIALS = 0;
+INTERNAL_SERVER_ERROR = 1;
+}
+
+required FailReason reason = 2 [default = INVALID_CREDENTIALS];
+}

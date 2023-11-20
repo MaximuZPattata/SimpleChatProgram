@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\maxim\Git_Files\SimpleChatProgram\ChatModuleDemo\x64\Debug\TCPServer.exe</FullPath>
+      <FullPath>C:\Users\maxim\Git_Files\Projects\Network_Programming\Project_01_Network_Programming\ChatModuleDemo\x64\Debug\TCPServer.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

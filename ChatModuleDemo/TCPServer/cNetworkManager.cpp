@@ -18,8 +18,8 @@ void cNetworkManager::SendMessageToBuffer(sChatMessage& message, cBuffer& buffer
 		+ sizeof(message.header.packetSize);
 
 	buffer.WriteUInt32BE(message.header.packetSize);
-	buffer.WriteUInt32BE(message.header.messageType);
-	buffer.WriteUInt32BE(message.messageLength);
+	buffer.WriteUInt16BE(message.header.messageType);
+	buffer.WriteUInt16BE(message.messageLength);
 	buffer.WriteString(message.message);
 }
 
@@ -258,7 +258,7 @@ int cNetworkManager::LoopThroughClientList(FD_SET& socketsReadyForReading, FD_SE
 
 			// Parse and handle the received message.
 			uint32_t packetSize = buffer.ReadUInt32BE();
-			uint32_t messageType = buffer.ReadUInt32BE();
+			uint32_t messageType = buffer.ReadUInt16BE();
 
 			if (buffer.mBufferData.size() >= packetSize)
 			{
@@ -267,7 +267,7 @@ int cNetworkManager::LoopThroughClientList(FD_SET& socketsReadyForReading, FD_SE
 
 			if (messageType == 1)
 			{
-				uint32_t messageLength = buffer.ReadUInt32BE();
+				uint32_t messageLength = buffer.ReadUInt16BE();
 				std::string msg = buffer.ReadString(messageLength);
 				std::string tempString;
 

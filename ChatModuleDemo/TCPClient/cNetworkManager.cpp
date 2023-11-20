@@ -28,8 +28,8 @@ void cNetworkManager::SendMessageToBuffer(sChatMessage& message, cBuffer& buffer
 
 	// Write our packet to the buffer
 	buffer.WriteUInt32BE(message.header.packetSize);
-	buffer.WriteUInt32BE(message.header.messageType);
-	buffer.WriteUInt32BE(message.messageLength);
+	buffer.WriteUInt16BE(message.header.messageType);
+	buffer.WriteUInt16BE(message.messageLength);
 	buffer.WriteString(message.message);
 }
 
