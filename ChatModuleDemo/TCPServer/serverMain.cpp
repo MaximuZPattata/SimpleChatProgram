@@ -15,7 +15,7 @@ int main(int arg, char** argv)
 	sChatMessage message;
 	cBuffer buffer(bufSize);
 
-	// Initialize the Windows Sockets API (WSA) for network communication.
+	// Initialize the Windows Sockets API (WSA) for network communication
 	result = networkManager.InitializeWSA();
 
 	if (result != 0)
