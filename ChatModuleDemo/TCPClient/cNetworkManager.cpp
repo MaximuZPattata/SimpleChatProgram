@@ -11,7 +11,6 @@ cNetworkManager::~cNetworkManager()
 { }
 
 
-// Function to structure the message and send it to the buffer.
 // [param_1]: Reference to the sChatMessage for message details.
 // [param_2]: Reference to the cBuffer instance for message storage.
 // [param_3]: The input message to send.
